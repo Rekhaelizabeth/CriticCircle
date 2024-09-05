@@ -119,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function(event) {
     <div class="container mt-5">
         <div class="row">
             <div class="col-md-6">
-                <img src="{{ movie.image.url }}" alt="{{ movie.title }}" class="img-fluid mb-4">
+                <img src="{{ movie.image.url }}" alt="{{ movie.title }}" class="img-fluid mb-4" style="width: 1000px; height: 1432px;">
             </div>
             <div class="col-md-6">
                 <h2>{{ movie.title }}</h2>
@@ -184,7 +184,9 @@ document.addEventListener("DOMContentLoaded", function(event) {
         {% endif %}
     </div>
   </main>
-
+  <div style="height: 100px; width: 100%;">
+    <!-- Your content goes here -->
+</div>
   <footer id="footer" class="footer dark-background">
 
     <div class="footer-top">
