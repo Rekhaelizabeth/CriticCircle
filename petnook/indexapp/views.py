@@ -3,7 +3,9 @@ from django.contrib.auth.models import User,auth
 from django.contrib import messages
 from django.http import JsonResponse
 from django.http import HttpResponse
-from .models import Director, Movie
+from .models import Director, Movie,Rating,Review
+from django.db.models import Avg
+
 
 # Create your views here.
 def index(request):
@@ -14,9 +16,42 @@ def seller(request):
     return render(request,'seller.html')
 def sellerpage(request):
     return render(request,'sellerpage.html')
+
+def productdescription(request,movie_id):
+    movie = get_object_or_404(Movie, id=movie_id)
+
+    # Check if the user has already rated or reviewed this movie
+    user_rating = Rating.objects.filter(movie=movie, user=request.user).first()
+    user_review = Review.objects.filter(movie=movie, user=request.user).first()
+
+    # Calculate average rating
+    average_rating = Rating.objects.filter(movie=movie).aggregate(Avg('rating'))['rating__avg']
+
+    if request.method == 'POST':
+        review_text = request.POST.get('review_text')
+        rating_value = request.POST.get('rating')
+
+        if review_text and not user_review:
+            # Save the new review
+            Review.objects.create(movie=movie, user=request.user, review_text=review_text)
+
+        if rating_value and not user_rating:
+            # Save the new rating
+            Rating.objects.create(movie=movie, user=request.user, rating=int(rating_value))
+
+        return redirect('movie_detail', movie_id=movie.id)
+
+    context = {
+        'movie': movie,
+        'average_rating': average_rating,
+        'reviews': movie.reviews.all(),
+        'user_review': user_review,
+        'user_rating': user_rating,
+    }
+    return render(request,'productdescription.html',context)
 def movies(request):
     
-    movie_list = Movie.objects.all()  # Fetch only 3 movies
+    movie_list = Movie.objects.all()
     return render(request, 'movies.html', {'movies': movie_list})
 
 def directors(request):
@@ -35,52 +70,44 @@ def director_movies(request, director_id):
     return render(request, 'director_movies.html', context)
 
 
-# def addproductadmin(request):
-    # user = request.user
-    # userid = user.id
-    # stdata = Category.objects.all()
-    # if request.method == 'POST':
-    #     # Create a new Category instance and assign values
-    #     newproduct = Product(
-    #     product_name = request.POST.get('product_name'),
-    #     product_description = request.POST.get('product_description'),
-    #     price = request.POST.get('price'),
-    #     product_images1 = request.FILES.get('product_images1'),
-    #     product_images2 = request.FILES.get('product_images2'),
-    #     product_images3 = request.FILES.get('product_images3'),
-    #     category = request.POST.get('category'),
-    #     brand_name = request.POST.get('brand_name'),
-    #     sizeQuantity = request.POST.get('sizeQuantity'),
-    #     petCompatibility = request.POST.get('petCompatibility'),
-    #     agesizesuitability = request.POST.get('agesizesuitability'),
-    #     colorsVariations = request.POST.get('colorsVariations'),
-    #     user_id=userid
-    #     )
-    #     newproduct.save()   
-        
-    #     return redirect("viewproduct")
-    # return render(request, "addproductadmin.html")
+# views.py
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from .models import Movie, Review, Rating
+from django.db.models import Avg
+
+@login_required
+def movie_detail(request, movie_id):
+    movie = get_object_or_404(Movie, id=movie_id)
+
+    # Check if the user has already rated or reviewed this movie
+    user_rating = Rating.objects.filter(movie=movie, user=request.user).first()
+    user_review = Review.objects.filter(movie=movie, user=request.user).first()
+
+    # Calculate average rating
+    average_rating = Rating.objects.filter(movie=movie).aggregate(Avg('rating'))['rating__avg']
+
+    if request.method == 'POST':
+        review_text = request.POST.get('review_text')
+        rating_value = request.POST.get('rating')
+
+        if review_text and not user_review:
+            # Save the new review
+            Review.objects.create(movie=movie, user=request.user, review_text=review_text)
+
+        if rating_value and not user_rating:
+            # Save the new rating
+            Rating.objects.create(movie=movie, user=request.user, rating=int(rating_value))
+
+        return redirect('movie_detail', movie_id=movie.id)
+
+    context = {
+        'movie': movie,
+        'average_rating': average_rating,
+        'reviews': movie.reviews.all(),
+        'user_review': user_review,
+        'user_rating': user_rating,
+    }
+    return render(request, 'movie_detail.html', context)
 
 
-
-
-def admindashboard(request):
-    return render(request,'admindashboard.html')
-# def viewproduct(request):
-#     stdata = Product.objects.filter(status=False)
-#     return render(request, "viewproduct.html", {'stdata': stdata})
-
-
-def customerproduct(request):
-    # stdata = Product.objects.filter(status=False)
-    return render(request, "customerproduct.html")
-
-
-def displayDog(request):
-    return render(request,'displayDog.html')
-
-def displayCat(request):
-    return render(request,'displayCat.html')
-
-def displayBird(request):
-    return render(request,'displayBird.html')

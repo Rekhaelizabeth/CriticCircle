@@ -35,6 +35,20 @@
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+  <style>
+    .logout-icon {
+      width: 30px;
+      height: 30px;
+      cursor: pointer;
+      margin-left: 10px;
+      transition: transform 0.2s ease;
+    }
+    
+    .logout-icon:hover {
+      transform: scale(1.1);
+    }
+    
+  </style>
 </head>
 
 <body class="index-page">
@@ -51,8 +65,8 @@
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="#hero" class="active">Home<br></a></li>
-          {% comment %} <li><a href="#speakers">Speakers</a></li>
-          <li><a href="#schedule">Schedule</a></li> {% endcomment %}
+          {% comment %} <li><a href="{% url 'productdescription/2/' %}">Speakers</a></li> {% endcomment %}
+          {% comment %} <li><a href="#schedule">Schedule</a></li> {% endcomment %}
           <li><a href="{% url 'directors' %}">Directors</a></li>
           <li><a href="{% url 'movies' %}">Movies</a></li>
           <li><a href="#contact">Fan Hub</a></li>
@@ -63,9 +77,13 @@
       {% if user.is_authenticated %}
       <!-- If user is authenticated, show the user's name with a profile link -->
       <a class="cta-btn d-none d-sm-block">{{ user }}</a>
+      <a href="{% url 'logout' %}">
+        <img src="{% static 'logout.png' %}" class="img-fluid logout-icon" alt="Logout" style="width: 20px; height: 20px;">
+      </a>
+
   {% else %}
       <!-- If user is not authenticated, show 'Login' without href -->
-      <a class="cta-btn d-none d-sm-block">Login</a>
+      <a class="cta-btn d-none d-sm-block"href="{% url 'login' %}">Login</a>
   {% endif %}
 
     </div>
