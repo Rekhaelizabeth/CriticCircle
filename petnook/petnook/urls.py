@@ -23,6 +23,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('indexapp.urls')),
     path('registration/',include('loginapp.urls')),
+    path('chat/',include('chat.urls')),
+
     
  
     

@@ -46,6 +46,8 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
+    'channels',
+    'chat',
 ]
 
 SITE_ID=1
@@ -81,7 +83,13 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'petnook.wsgi.application'
+ASGI_APPLICATION = 'petnook.asgi.application'
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',
+    },
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases

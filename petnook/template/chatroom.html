@@ -1,0 +1,17 @@
+<!-- chatroom.html -->
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+    <script src="{% static 'js/chat.js' %}" defer></script>
+</head>
+<body>
+    <h1>Chat Room: <span id="room-name">{{ room_name }}</span></h1>
+    <textarea id="chat-log" cols="100" rows="20" readonly></textarea><br>
+    <input id="chat-message-input" type="text" size="100" autofocus><br>
+</body>
+</html>
