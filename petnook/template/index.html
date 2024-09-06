@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Index - TheEvent Bootstrap Template</title>
+  <title>Movie Review Website</title>
   <meta name="description" content="">
   <meta name="keywords" content="">
 
@@ -57,19 +57,23 @@
     <div class="container-fluid container-xl position-relative d-flex align-items-center">
 
       <a href="index.html" class="logo d-flex align-items-center me-auto">
-        <img src="{% static 'assets/img/CriticCircle.png' %}" alt="">
+        <img 
+        src="{% static 'assets/img/CriticCircle.png' %}" 
+        alt="" 
+        style="height: 100px; width: auto; display: block; max-height: 100%;"
+      >
+      
         <!-- Uncomment the line below if you also wish to use an text logo -->
         <!-- <h1 class="sitename">TheEvent</h1>  -->
       </a>
-
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="#hero" class="active">Home<br></a></li>
-          <li><a href="{% url 'chatroom' %}">Speakers</a></li>
+          <li><a href="{% url 'chatroom' %}">Chat Room</a></li>
           {% comment %} <li><a href="#schedule">Schedule</a></li> {% endcomment %}
           <li><a href="{% url 'directors' %}">Directors</a></li>
           <li><a href="{% url 'movies' %}">Movies</a></li>
-          <li><a href="#contact">Fan Hub</a></li>
+        
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
@@ -95,6 +99,7 @@
     <section id="hero" class="hero section dark-background">
 
       <img src="{% static 'assets/img/indexmovie.jpg' %}" alt="" data-aos="fade-in" class="">
+      
 
       <div class="container d-flex flex-column align-items-center text-center mt-auto">
         <h2 data-aos="fade-up" data-aos-delay="100" class="">THE ANNUAL<br><span>MARKETING</span> CONFERENCE</h2>

@@ -1,17 +1,20 @@
-<!-- chatroom.html -->
-{% load static %}
-
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chat Room</title>
-    <script src="{% static 'js/chat.js' %}" defer></script>
+    <title>Chatroom</title>
 </head>
 <body>
-    <h1>Chat Room: <span id="room-name">{{ room_name }}</span></h1>
-    <textarea id="chat-log" cols="100" rows="20" readonly></textarea><br>
-    <input id="chat-message-input" type="text" size="100" autofocus><br>
+    <h1>Chat Room</h1>
+    <div id="chat-messages">
+        {% for message in messages %}
+            <p><strong>{{ message.user.name }}</strong>: {{ message.content }}</p>
+        {% endfor %}
+    </div>
+
+    <form method="post" action="{% url 'chatroom' %}">
+        {% csrf_token %}
+        <textarea name="content" placeholder="Type your message here..."></textarea>
+        <button type="submit">Send</button>
+    </form>
 </body>
 </html>

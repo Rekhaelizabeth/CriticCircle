@@ -1,16 +1,14 @@
 from django.shortcuts import render
+from .models import ChatRoom, Message
+from loginapp.models import CustomUser  # Import your custom user model if needed
 
 def chatroom(request):
-    return render(request, 'chatroom.html')
+    if request.method == "POST":
+        content = request.POST.get("content", "")
+        user = request.user  # Assuming the user is authenticated
 
-def room(request, room_name):
-    return render(request, 'room.html', {'room_name': room_name})
+        if content:
+            Message.objects.create(user=user, content=content)
 
-from django.shortcuts import render, get_object_or_404
-from .models import ChatRoom, Message
-
-def chat_room(request, room_name):
-    room = get_object_or_404(ChatRoom, name=room_name)
-    messages = Message.objects.filter(room=room).order_by('timestamp')
-    return render(request, 'chat/room.html', {'room': room, 'messages': messages})
-
+    messages = Message.objects.all().order_by('-timestamp')
+    return render(request, "chatroom.html", {"messages": messages})

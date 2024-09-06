@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Rooms</title>
+    <style>
+        body {
+            display: flex;
+        }
+        #rooms-list {
+            width: 25%;
+            padding: 10px;
+            border-right: 1px solid #ddd;
+        }
+        #chat-window {
+            width: 75%;
+            padding: 10px;
+        }
+        .message {
+            margin: 5px 0;
+        }
+        .user-message {
+            color: blue;
+        }
+        .other-message {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+    <div id="rooms-list">
+        <h3>Available Chat Rooms</h3>
+        <ul>
+            {% for room in rooms %}
+                <li><a href="{% url 'chat_room' room.name %}">{{ room.name }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div id="chat-window">
+        <h3>Select a chat room to join the conversation.</h3>
+    </div>
+</body>
+</html>
