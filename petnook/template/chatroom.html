@@ -12,6 +12,7 @@
             overflow-y: auto; /* Enable vertical scrolling */
             margin-bottom: 15px; /* Space below the container */
         }
+        
     </style>
 </head>
 
@@ -124,7 +125,7 @@
     
     <div id="chat-messages" style="background-color:white;margin-left:600px; border: 1px solid #ddd;">
         {% for message in messages %}
-            <p><strong>{{ message.user.name }}</strong>: {{ message.content }}</p>
+            <p><p>{{message.timestamp}}</p><strong>{{ message.user.name }}</strong>: {{ message.content }} </p>
         {% endfor %}
     </div>
 
@@ -135,6 +136,7 @@
             box-shadow: none; "><img src="{% static 'send-message.png' %}" class="img-fluid logout-icon" alt="Logout" style="width: 30px; height: 30px;margin-top:-30px;">
         </button>
     </form>
+    
 </body>
 
 
